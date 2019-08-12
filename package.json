@@ -11,7 +11,7 @@
     "clean": "rm -rf dist && mkdir dist",
     "build": "npm run clean && npm run babel-build",
     "heroku-postbuild": "npm run build && npm run migration",
-    "migration": "sequelize-cli db:migrate"
+    "migration": "npx sequelize-cli db:migrate"
   },
   "keywords": [],
   "author": "",
