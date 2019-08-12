@@ -8,7 +8,7 @@
     "start": "node dist/index.js",
     "start-dev": "nodemon --exec babel-node API/index.js",
     "babel-build": "babel API -d dist",
-    "clean": "rm -rf dist && mkdir dist",
+    "clean": "mkdir dist",
     "build": "npm run clean && npm run babel-build",
     "heroku-postbuild": "npm run build && npm run migration",
     "migration": "npx sequelize-cli db:migrate"
