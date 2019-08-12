@@ -19,16 +19,17 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/bucketlists', bucketList);
 
-app.use((req, res, next) => {
-  const error = new Error('The specified route does not exist');
-  error.status = 404;
-  next(error);
-});
 
 app.get('/', (req, res) => res.status(200).json({
   status: 200,
   message: 'Welcome To My Bucket List',
 }));
+
+app.use((req, res, next) => {
+  const error = new Error('The specified route does not exist');
+  error.status = 404;
+  next(error);
+});
 
 const PORT = process.env.PORT || 4000;
 
