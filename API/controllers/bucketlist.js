@@ -11,7 +11,7 @@ export const createBucketList = async (req, res) => {
   try {
     const newBucketList = await model.BucketList.create({
       name: req.body.name,
-      created_by: req.body.userId,
+      created_by: req.decoded.user.id,
     });
     const bucketList = _.pick(newBucketList, ['id', 'name', 'date_created', 'date_modified', 'created_by']);
     return successResponse(res, 201, bucketList);
@@ -77,12 +77,19 @@ export const PaginateBucketLists = async (req, res) => {
 
 export const getABucketList = async (req, res) => {
   try {
-    const bucketList = await model.BucketList.findByPk(req.params.id);
-    if (!bucketList) {
+    const bucketList = await model.BucketList.findAll({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        model: model.BucketListItem,
+        as: 'Items',
+      },
+    });
+    if (bucketList.length < 1) {
       return errorResponse(new Error('No bucketlist with the stated id'), res, 404);
     }
-    const result = _.pick(bucketList, ['id', 'name', 'date_created', 'date_modified', 'created_by']);
-    return successResponse(res, 200, result);
+    return successResponse(res, 200, bucketList[0]);
   } catch (error) {
     return errorResponse(error, res, 500);
   }
@@ -91,15 +98,22 @@ export const getABucketList = async (req, res) => {
 
 export const updateBucketList = async (req, res) => {
   try {
-    const bucketList = await model.BucketList.findByPk(req.params.id);
-    if (!bucketList) {
+    const bucketList = await model.BucketList.findAll({
+      where: {
+        id: req.params.id,
+      },
+      include: {
+        model: model.BucketListItem,
+        as: 'Items',
+      },
+    });
+    if (bucketList.length < 1) {
       return errorResponse(new Error('No bucketlist with the stated id'), res, 404);
     }
-    await bucketList.update({
+    await bucketList[0].update({
       name: req.body.name,
     });
-    const result = _.pick(bucketList, ['id', 'name', 'date_created', 'date_modified', 'created_by']);
-    return successResponse(res, 200, result);
+    return successResponse(res, 200, bucketList[0]);
   } catch (error) {
     return errorResponse(error, res, 500);
   }

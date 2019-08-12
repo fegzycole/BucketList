@@ -10,7 +10,6 @@ export const validateBucketList = (req, res, next) => {
 
   const rules = {
     name: 'required|string|min:5',
-    userId: 'required|integer',
   };
 
   validate(data, rules, res, next);
