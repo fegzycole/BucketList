@@ -18,30 +18,24 @@ export const validator = (data, rules) => {
   };
 };
 
-
 export const errorResponse = (error, res, statusCode) => res.status(statusCode).json({
   status: statusCode,
   error: error.message,
 });
-
 
 export const successResponse = (res, statusCode, data) => res.status(statusCode).json({
   status: statusCode,
   data,
 });
 
-
 export const validate = (data, rules, res, next) => {
   const validation = validator(data, rules);
   return validation === true ? next() : errorResponse(validation.error, res, 400);
 };
 
-
 export const hashPassword = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
-
 export const comparePassword = (hashPwd, password) => bcrypt.compareSync(password, hashPwd);
-
 
 export const createToken = (user) => {
   const token = jwt.sign(
@@ -54,7 +48,6 @@ export const createToken = (user) => {
 
   return token;
 };
-
 
 export const paginate = ({ page, pageSize }) => {
   const offset = page * pageSize;
