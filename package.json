@@ -35,7 +35,7 @@
     "express": "^4.17.1",
     "express-body-trimmer": "^1.0.3",
     "express-session": "^1.16.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
